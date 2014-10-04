@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @rank.code %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @rank.description %>
+</p>
+
+<%= link_to 'Edit', edit_rank_path(@rank) %> |
+<%= link_to 'Back', ranks_path %>

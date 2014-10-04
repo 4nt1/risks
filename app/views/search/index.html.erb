@@ -1,0 +1,98 @@
+<%= bo_box 'Chercher des types de risques', color: 'info' do  %>
+  <div class="col-sm-6">
+    <%= form_for Type.new, remote: true, layout: :inline do |f| %>
+      <%= f.autocomplete_field  :code,
+                                autocomplete_type_code_search_index_path,
+                                class: 'form-control',
+                                placeholder: 'Code' %>
+      <%= f.autocomplete_field  :description,
+                                autocomplete_type_description_search_index_path,
+                                class: 'form-control',
+                                placeholder: 'Description' %>
+      <%= f.submit 'Créer', class: 'form-control' %>
+    <% end -%>
+  </div>
+  <div class="col-sm-6" id='found-type'>
+
+  </div>
+<% end -%>
+
+<%= bo_box 'Chercher des risques', color: 'info' do  %>
+  <div class="col-sm-6">
+    <%= form_for Risk.new, remote: true, layout: :inline do |f| %>
+      <%= f.autocomplete_field  :code,
+                                autocomplete_risk_code_search_index_path,
+                                class: 'form-control',
+                                placeholder: 'Code' %>
+      <%= f.autocomplete_field  :description,
+                                autocomplete_risk_description_search_index_path,
+                                class: 'form-control',
+                                placeholder: 'Description' %>
+      <%= f.submit 'Créer', class: 'form-control' %>
+    <% end -%>
+  </div>
+  <div class="col-sm-6" id='found-risk'>
+
+  </div>
+<% end -%>
+
+<div class="box box-danger ">
+  <div class="box-header-danger">
+    <h4>Classements</h4>
+  </div>
+  <div class="box-content">
+    <div id="results">
+
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<script type='text/javascript'>
+
+  var search =  {
+    riskIds:  [],
+    typeIds:  [],
+    updateResults: function () {
+      var str = '';
+      if ( (this.riskIds.length > 0) || (this.typeIds.length > 0)){
+        var parameters = $.param({risk_ids: this.riskIds, type_ids: this.typeIds });
+        $.ajax({
+          url:      '<%= ranks_path %>?' + parameters,
+          method:   'GET',
+          dataType: 'JSON'
+        }).done(function (data) {
+          data.forEach(function (rank) {
+            str += "<div class='alert alert-danger' role='alert'>" + rank.libelle + " <a style='float:right' href='/ranks/" + rank.id.$oid +"/edit' >éditer</a></div>"
+          });
+          $("#results").html(str);
+        });
+      } else {
+        $("#results").html(str);
+      }
+    },
+    initEvents: function () {
+      ['type', 'risk'].forEach(function (klass) {
+
+        ['code', 'description'].forEach(function (att) {
+          $('#' + klass + '_' + att).bind('railsAutocomplete.select', function(event, data){
+            $(this).val(null);
+            search[klass + 'Ids'].push(data.item.id);
+            $('#found-' + klass).append(
+              "<div class='alert alert-info alert-dismissible'" + "data-id='" + data.item.id + "' role='alert'><button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button><strong>" + data.item.value + "</strong></div>");
+
+            search.updateResults();
+            $('.alert[data-id="' + data.item.id + '"]').bind('closed.bs.alert', function (event) {
+              var i = search[klass + 'Ids'].indexOf($(this).attr('data-id'));
+              search[klass + 'Ids'].splice(i, 1);
+              search.updateResults();
+            });
+          });
+        });
+      });
+    }
+  };
+  search.initEvents();
+
+
+</script>

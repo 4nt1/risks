@@ -1,0 +1,100 @@
+$top-bar-background-color: #6f5499
+$top-bar-text-color: white
+
+.bo-nav-bar, .bo-nav-bar .bo-navbar-collapse
+  background-color: $top-bar-background-color
+.bo-nav-bar .bo-navbar-collapse .navbar-nav
+  li > a
+    color: $top-bar-text-color
+  li.active > a
+    background-color: #9470CC
+  .dropdown-menu > li > a
+    color: black
+
+$colors : (danger #d9534f) (info #5bc0de) (warning #f0ad4e) (success #d6e9c6) (primary #428bca)
+.box
+  border: 1px solid #ddd
+  border-left-width: 5px
+  border-radius: 4px
+  padding: 20px
+  margin: 20px 0
+  @each $state in $colors
+    &.box-#{nth($state, 1)}
+      border-left-color: #{nth($state, 2)}
+    .box-header-#{nth($state, 1)} h4
+      color: #{nth($state, 2)}
+
+#new_game_button
+  float: right
+  margin-top: 30px
+#edit_game
+  .form-submit
+    float: right
+  .tab-pane
+    height: 700px
+    overflow: auto
+    border-left: 1px solid #ddd
+    border-right: 1px solid #ddd
+    border-bottom: 1px solid #ddd
+    border-bottom-left-radius: 4px
+    border-bottom-right-radius: 4px
+#editor
+  position: absolute
+  width: 99.9%
+  height: 698px
+#emails
+  .panel-body
+    height: 440px
+  #emails_editor
+    position: absolute
+    width: 99.9%
+    height: 250px
+
+.panel
+  margin-top: 15px
+.sidebar
+  margin-top: 7%
+/* Base CSS file of Backoffice */
+html
+  height: 100%
+body.not_logged
+  // background: image-url("backoffice/bg-login.jpg") no-repeat center center fixed
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  -o-background-size: cover
+  background-size: cover
+  height: 100%
+  width: 100%
+  overflow: hidden
+  .container
+    height: 100%
+  .sign_in_container
+    // background: image-url("backoffice/goutte.png") no-repeat center center
+    // width: 400px
+    // height: 426px
+    // position: absolute
+    // top: 50%
+    // left: 50%
+    // margin: -200px -200px
+  .sign_in
+    width: 300px
+    height: 300px
+    // position: relative
+    padding: 15px
+    // margin-top: 120px
+    margin: auto
+  .logo_container
+    width: 30%
+    margin: 0 auto
+a.navbar-brand
+  padding: 5px 10px 5px 20px
+// #preview-form
+//   width: 338px
+.sortable-item
+  cursor: -webkit-grab
+  cursor: -moz-grab
+  cursor: move
+.del-q-btn
+  margin-left: 20px
+.qinfo
+  max-width: 75%

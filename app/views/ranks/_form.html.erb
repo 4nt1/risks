@@ -1,0 +1,13 @@
+<%= form_for @rank, layout: :basic do |f| %>
+
+    <%= f.text_field :code %>
+
+    <%= f.text_field :description %>
+
+    <%= f.select :type_ids, Type.all.map {|t| [t.description, t._id.to_s]}, {label: 'Types de risque <small>(choix multiple)</small>'.html_safe}, multiple: true %>
+
+    <%= f.select :risk_ids, Risk.all.map {|t| [t.description, t._id.to_s]}, {label: 'Risques <small>(choix multiple)</small>'.html_safe}, multiple: true %>
+
+    <%= f.submit 'Valider' %>
+
+<% end %>

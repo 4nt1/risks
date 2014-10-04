@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Risks</title>
+    <meta name="description" content="Risks n'est pas un jeu">
+    <meta name="author" content="Antoine Mary">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-toggle"></span>
+        </button>
+        <ul class="nav navbar-nav">
+            <li><a href="<%= root_path %>">Recherche</a></li>
+            <li><a href="<%= types_path %>">Types de riques</a></li>
+            <li><a href="<%= risks_path %>">Risques</a></li>
+            <li><a href="<%= ranks_path %>">Classements</a></li>
+          </ul>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div id="messages" class='col-sm-12'>
+        </div>
+      </div>
+      <div class="row">
+        <div id="messages">
+
+        </div>
+        <div class="col-sm-12">
+          <%= render 'layouts/messages' %>
+          <%= yield %>
+        </div>
+      </div>
+    <div>
+    <div class="clearfix"></div>
+    <footer>
+    </footer>
+  </body>
+</html>
