@@ -22,23 +22,19 @@ class RisksController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @risk.update(risk_params)
-        format.html { redirect_to @risk, notice: 'Risk was successfully updated.' }
-        format.json { render :show, status: :ok, location: @risk }
-      else
-        format.html { render :edit }
-        format.json { render json: @risk.errors, status: :unprocessable_entity }
-      end
+    if @risk.update(risk_params)
+      flash[:success] = 'Le risque a bien été mis à jour'
+      redirect_to risks_path and return
+    else
+      flash[:danger] = "Une erreur est survenue: #{@risk.errors.full_messages}"
+      render :edit
     end
   end
 
   def destroy
     @risk.destroy
-    respond_to do |format|
-      format.html { redirect_to risks_url, notice: 'Risk was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:success] = 'Le risque a bien été supprimé'
+    redirect_to risks_url
   end
 
   private

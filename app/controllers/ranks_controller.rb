@@ -9,7 +9,6 @@ class RanksController < ApplicationController
     if params[:type_ids]
       @ranks = @ranks.all_in(type_ids: params[:type_ids])
     end
-    puts "send back #{@ranks.count} ranks"
   end
 
   def show
@@ -25,35 +24,29 @@ class RanksController < ApplicationController
   def create
     @rank = Rank.new(rank_params)
 
-    respond_to do |format|
-      if @rank.save
-        format.html { redirect_to @rank, notice: 'Rank was successfully created.' }
-        format.json { render :show, status: :created, location: @rank }
-      else
-        format.html { render :new }
-        format.json { render json: @rank.errors, status: :unprocessable_entity }
-      end
+    if @rank.save
+      flash[:success] = 'Le rang a bien été créé'
+      redirect_to ranks_path
+    else
+      flash[:danger] = "Une erreur est survenue: #{@rank.errors.full_messages}"
+      render :new
     end
   end
 
   def update
-    respond_to do |format|
-      if @rank.update(rank_params)
-        format.html { redirect_to @rank, notice: 'Rank was successfully updated.' }
-        format.json { render :show, status: :ok, location: @rank }
-      else
-        format.html { render :edit }
-        format.json { render json: @rank.errors, status: :unprocessable_entity }
-      end
+    if @rank.update(rank_params)
+      flash[:success] = 'Le rang a bien été mis à jour'
+      redirect_to ranks_path
+    else
+      flash[:danger] = "Une erreur est survenue: #{@rank.errors.full_messages}"
+      render :edit
     end
   end
 
   def destroy
     @rank.destroy
-    respond_to do |format|
-      format.html { redirect_to ranks_url, notice: 'Rank was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:success] = 'Le rang a bien été supprimé'
+    redirect_to ranks_url
   end
 
   private

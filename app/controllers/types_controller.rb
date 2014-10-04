@@ -22,23 +22,19 @@ class TypesController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @type.update(type_params)
-        format.html { redirect_to @type, notice: 'Type was successfully updated.' }
-        format.json { render :show, status: :ok, location: @type }
-      else
-        format.html { render :edit }
-        format.json { render json: @type.errors, status: :unprocessable_entity }
-      end
+    if @type.update(type_params)
+      flash[:success] = 'Le type de risque a bien été mis à jour'
+      redirect_to types_path and return
+    else
+      flash[:danger] = "Une erreur est survenue: #{@type.errors.full_messages}"
+      render :edit
     end
   end
 
   def destroy
     @type.destroy
-    respond_to do |format|
-      format.html { redirect_to types_url, notice: 'Type was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:success] = 'Le type de risque a bien été supprimé'
+    redirect_to types_url
   end
 
   private
